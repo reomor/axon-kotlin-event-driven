@@ -1,0 +1,11 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: 'http://localhost:8761/eureka'
+  instance:
+    instance-id: product-service:${instanceId:${random.uuid}}
+server:
+  port: 0
+spring:
+  application:
+    name: product-service
