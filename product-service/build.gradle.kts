@@ -6,6 +6,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.5.20"
     kotlin("plugin.spring") version "1.5.20"
+    kotlin("plugin.noarg") version "1.5.20"
 }
 
 group = "com.github.reomor"
@@ -18,6 +19,9 @@ configurations {
     }
 }
 
+noArg {
+    annotation("org.axonframework.spring.stereotype.Aggregate")
+}
 
 repositories {
     mavenCentral()
@@ -32,13 +36,17 @@ dependencyManagement {
 }
 
 dependencies {
+
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    implementation("org.axonframework:axon-spring-boot-starter:4.5.3")
+
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
