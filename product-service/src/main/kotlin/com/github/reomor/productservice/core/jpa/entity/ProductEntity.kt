@@ -1,6 +1,6 @@
-package com.github.reomor.productservice.jpa.entity
+package com.github.reomor.productservice.core.jpa.entity
 
-import com.github.reomor.productservice.events.command.ProductId
+import com.github.reomor.productservice.command.event.command.ProductId
 import java.io.Serializable
 import java.math.BigDecimal
 import javax.persistence.Column

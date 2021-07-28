@@ -1,6 +1,6 @@
-package com.github.reomor.productservice.events.domain
+package com.github.reomor.productservice.core.event.domain
 
-import com.github.reomor.productservice.events.command.ProductId
+import com.github.reomor.productservice.command.event.command.ProductId
 import java.math.BigDecimal
 
 data class ProductCreatedEvent(

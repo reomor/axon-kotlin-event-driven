@@ -1,4 +1,4 @@
-package com.github.reomor.productservice.rest.dto
+package com.github.reomor.productservice.command.rest.dto
 
 import java.math.BigDecimal
 

@@ -1,17 +1,17 @@
-package com.github.reomor.productservice.rest
+package com.github.reomor.productservice.command.rest
 
-import com.github.reomor.productservice.events.command.CreateProductCommand
-import com.github.reomor.productservice.events.command.ProductId
-import com.github.reomor.productservice.rest.dto.CreateProductRequest
-import com.github.reomor.productservice.rest.dto.CreateProductResponse
+import com.github.reomor.productservice.command.event.command.CreateProductCommand
+import com.github.reomor.productservice.command.event.command.ProductId
+import com.github.reomor.productservice.command.rest.dto.CreateProductRequest
+import com.github.reomor.productservice.command.rest.dto.CreateProductResponse
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.core.env.Environment
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("$V1$PRODUCTS")
-class ProductController(
+@RequestMapping("/v1/products/command")
+class ProductCommandController(
     private val environment: Environment,
     private val commandGateway: CommandGateway
 ) {
@@ -31,10 +31,5 @@ class ProductController(
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
-    }
-
-    @GetMapping
-    fun get(): String {
-        return "GET " + environment.getProperty("local.server.port")
     }
 }

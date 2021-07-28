@@ -1,4 +1,4 @@
-package com.github.reomor.productservice.events.command
+package com.github.reomor.productservice.command.event.command
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.math.BigDecimal
