@@ -22,8 +22,8 @@ internal class ProductAggregate {
   @CommandHandler
   constructor(command: CreateProductCommand) {
 
-    if (command.price <= ZERO) throw IllegalArgumentException()
-    if (command.name.isBlank()) throw IllegalArgumentException()
+    if (command.price <= ZERO) throw IllegalArgumentException("The price cannot be less than 0")
+    if (command.name.isBlank()) throw IllegalArgumentException("The name cannot be blank")
 
     AggregateLifecycle.apply(
       ProductCreatedEvent(
