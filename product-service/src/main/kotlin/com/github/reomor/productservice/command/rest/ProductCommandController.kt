@@ -6,18 +6,18 @@ import com.github.reomor.productservice.command.rest.dto.CreateProductRequest
 import com.github.reomor.productservice.command.rest.dto.CreateProductResponse
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.core.env.Environment
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/v1/products/command")
 class ProductCommandController(
-    private val environment: Environment,
     private val commandGateway: CommandGateway
 ) {
-
     @PostMapping
-    fun create(@RequestBody request: CreateProductRequest): CreateProductResponse {
+    fun create(@Valid @RequestBody request: CreateProductRequest): CreateProductResponse {
 
         val command = CreateProductCommand.build {
             id = ProductId.randomUUID()

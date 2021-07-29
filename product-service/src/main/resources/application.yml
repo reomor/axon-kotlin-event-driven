@@ -6,6 +6,9 @@ eureka:
     instance-id: product-service:${instanceId:${random.uuid}}
 server:
   port: 0
+  error:
+    include-message: always
+    include-binding-errors: always
 spring:
   application:
     name: product-service
