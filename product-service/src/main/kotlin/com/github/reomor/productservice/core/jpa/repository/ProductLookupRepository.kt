@@ -1,11 +1,11 @@
 package com.github.reomor.productservice.core.jpa.repository
 
 import com.github.reomor.productservice.command.event.command.ProductId
-import com.github.reomor.productservice.core.jpa.entity.ProductEntity
+import com.github.reomor.productservice.core.jpa.entity.ProductLookupEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ProductRepository : JpaRepository<ProductEntity, ProductId> {
-  fun findByProductId(productId: ProductId): ProductEntity?
+interface ProductLookupRepository : JpaRepository<ProductLookupEntity, ProductId> {
+  fun findByProductIdOrName(productId: ProductId, name: String): ProductLookupEntity?
 }

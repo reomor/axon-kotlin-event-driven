@@ -11,8 +11,8 @@ import org.springframework.context.ApplicationContext
 class ProductServiceApplication {
 
     @Autowired
-    fun registerCreateProductCommandInterceptor(contex: ApplicationContext, commandBus: CommandBus) {
-        commandBus.registerDispatchInterceptor(contex.getBean(CreateProductCommandInterceptor::class.java))
+    fun registerCreateProductCommandInterceptor(context: ApplicationContext, commandBus: CommandBus) {
+        commandBus.registerDispatchInterceptor(context.getBean(CreateProductCommandInterceptor::class.java))
     }
 }
 

@@ -13,3 +13,7 @@ axoniq:
     devmode:
       enabled: true
 ```
+
+### H2
+
+[h2-console via gateway](http://localhost:8082/product-service/h2-console)

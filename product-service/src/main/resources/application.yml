@@ -25,3 +25,8 @@ spring:
       enabled: true
       settings:
         web-allow-others: true
+axon:
+  eventhandling:
+    processors:
+      product-group:
+        mode: subscribing

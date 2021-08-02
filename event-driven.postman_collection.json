@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "2eb8e121-5d14-4429-8bd9-08b6a7acb532",
+		"name": "event-driven",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/v1/products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/product-service/v1/products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/product-service/v1/products/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"product-service",
+						"v1",
+						"products",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/product-service/v1/products fail_validation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"huinya\",\r\n    \"price\": 3.66,\r\n    \"quantity\": 100500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/product-service/v1/products/command",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"product-service",
+						"v1",
+						"products",
+						"command"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/product-service/v1/products",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"huinya\",\r\n    \"price\": 3.66,\r\n    \"quantity\": 100500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/product-service/v1/products/command",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"product-service",
+						"v1",
+						"products",
+						"command"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
