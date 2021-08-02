@@ -26,10 +26,6 @@ class ProductCommandController(
             quantity = request.quantity
         }
 
-        try {
-            return CreateProductResponse(commandGateway.sendAndWait<UUID>(command))
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
+        return CreateProductResponse(commandGateway.sendAndWait<UUID>(command))
     }
 }
