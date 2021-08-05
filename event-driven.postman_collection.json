@@ -79,13 +79,13 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8082/product-service/v1/products",
+			"name": "http://localhost:8082/product-service/v1/products/command",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"huinya\",\r\n    \"price\": 3.66,\r\n    \"quantity\": 100500\r\n}",
+					"raw": "{\r\n    \"name\": \"ipnohe -11\",\r\n    \"price\": 3.66,\r\n    \"quantity\": 4\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -103,6 +103,37 @@
 						"product-service",
 						"v1",
 						"products",
+						"command"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/order-service/v1/orders/command",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"f241af45-4854-43f4-95bc-ab54da338a29\",\r\n    \"quantity\": 1,\r\n    \"addressId\": \"afbb5881-a872-4d13-993c-faeb8350eea5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/order-service/v1/orders/command",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"order-service",
+						"v1",
+						"orders",
 						"command"
 					]
 				}
