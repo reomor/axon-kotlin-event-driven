@@ -18,8 +18,8 @@ class ProductLookupEventsHandler(
   fun on(event: ProductCreatedEvent) {
     productLookupRepository.save(
       ProductLookupEntity(
-        event.id,
-        event.name
+        productId = event.productId,
+        name = event.name
       )
     )
   }

@@ -32,14 +32,11 @@ class ProductEventsHandler(
   fun on(event: ProductCreatedEvent) {
     productRepository.save(
       ProductEntity(
-        event.id,
-        event.name,
-        event.price,
-        event.quantity
+        productId = event.productId,
+        name = event.name,
+        price = event.price,
+        quantity = event.quantity
       )
     )
-
-    // fixme
-    if (true) throw RuntimeException("Exception to cause rollback")
   }
 }

@@ -1,5 +1,6 @@
 package com.github.reomor.productservice.command.event.command
 
+import com.github.reomor.productservice.core.ProductId
 import com.github.reomor.productservice.core.event.domain.ProductCreatedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
@@ -14,7 +15,7 @@ import kotlin.IllegalArgumentException
 internal class ProductAggregate {
 
   @AggregateIdentifier
-  private lateinit var id: ProductId
+  private lateinit var productId: ProductId
   private lateinit var name: String
   private lateinit var price: BigDecimal
   private var quantity: Int = 0
@@ -27,7 +28,7 @@ internal class ProductAggregate {
 
     AggregateLifecycle.apply(
       ProductCreatedEvent(
-        command.id,
+        command.productId,
         command.name,
         command.price,
         command.quantity
@@ -37,7 +38,7 @@ internal class ProductAggregate {
 
   @EventSourcingHandler
   fun on(event: ProductCreatedEvent) {
-    id = event.id
+    productId = event.productId
     name = event.name
     price = event.price
     quantity = event.quantity

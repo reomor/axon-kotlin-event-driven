@@ -1,6 +1,6 @@
 package com.github.reomor.productservice.core.jpa.repository
 
-import com.github.reomor.productservice.command.event.command.ProductId
+import com.github.reomor.productservice.core.ProductId
 import com.github.reomor.productservice.core.jpa.entity.ProductLookupEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository

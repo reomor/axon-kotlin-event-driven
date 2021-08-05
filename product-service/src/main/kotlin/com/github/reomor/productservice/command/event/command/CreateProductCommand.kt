@@ -1,24 +1,28 @@
 package com.github.reomor.productservice.command.event.command
 
+import com.github.reomor.productservice.core.ProductId
 import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.math.BigDecimal
 import java.util.*
 
-typealias ProductId = UUID
-
 data class CreateProductCommand(
   @TargetAggregateIdentifier
-  val id: ProductId,
+  val productId: ProductId,
   val name: String,
   val price: BigDecimal,
   val quantity: Int
 ) {
 
-  private constructor(builder: Builder) : this(builder.id, builder.name, builder.price, builder.quantity)
+  private constructor(builder: Builder) : this(
+    productId = builder.productId,
+    name = builder.name,
+    price = builder.price,
+    quantity = builder.quantity
+  )
 
   class Builder {
 
-    var id: ProductId = UUID.randomUUID()
+    var productId: ProductId = UUID.randomUUID()
     var name: String = ""
     var price: BigDecimal = BigDecimal.ZERO
     var quantity: Int = 0

@@ -16,7 +16,7 @@ class CreateProductCommandInterceptor(
   private val logger = LoggerFactory.getLogger(javaClass)
 
   override fun handle(messages: MutableList<out CommandMessage<*>>?): BiFunction<Int, CommandMessage<*>, CommandMessage<*>> {
-    return BiFunction { index, command ->
+    return BiFunction { _, command ->
 
       logger.info("Intercepted command: {}", command.payload)
 
@@ -25,7 +25,7 @@ class CreateProductCommandInterceptor(
         if (createProductCommand is CreateProductCommand) {
 
           val lookupEntity = productLookupRepository.findByProductIdOrName(
-            createProductCommand.id,
+            createProductCommand.productId,
             createProductCommand.name
           )
 

@@ -1,6 +1,6 @@
 package com.github.reomor.productservice.core.jpa.entity
 
-import com.github.reomor.productservice.command.event.command.ProductId
+import com.github.reomor.productservice.core.ProductId
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
