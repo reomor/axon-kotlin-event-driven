@@ -11,7 +11,7 @@
 ### Run order for debug
 
 - Discovery Service
-- Product Service
+- Product Service, Order Service
 - Api gateway
 
 ### [Axon](https://axoniq.io)
