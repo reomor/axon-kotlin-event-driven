@@ -1,5 +1,19 @@
 ## Event-Driven
 
+[Event-Driven Microservices, CQRS, SAGA, Axon, Spring Boot](https://www.udemy.com/course/spring-boot-microservices-cqrs-saga-axon-framework/)
+
+### Stack
+
+- Kotlin 1.5.20
+- Spring Boot 2.5.2
+- Axon Framework 4.5.3
+
+### Run order for debug
+
+- Discovery Service
+- Product Service
+- Api gateway
+
 ### [Axon](https://axoniq.io)
 
 ```yml

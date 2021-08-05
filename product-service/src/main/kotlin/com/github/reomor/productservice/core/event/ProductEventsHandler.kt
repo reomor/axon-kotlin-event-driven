@@ -5,6 +5,7 @@ import com.github.reomor.productservice.core.jpa.entity.ProductEntity
 import com.github.reomor.productservice.core.jpa.repository.ProductRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
+import org.axonframework.messaging.interceptors.ExceptionHandler
 import org.springframework.stereotype.Component
 
 const val PRODUCT_EVENTS_GROUP = "product-group"
@@ -14,6 +15,18 @@ const val PRODUCT_EVENTS_GROUP = "product-group"
 class ProductEventsHandler(
   private val productRepository: ProductRepository
 ) {
+
+  // catches exceptions in @EventHandler and only in this class
+  // `subscribing` nature of processor allows us to handle exceptions in one transaction
+  @ExceptionHandler(resultType = Exception::class)
+  fun handle(e: Exception) {
+    throw e
+  }
+
+  @ExceptionHandler(resultType = IllegalArgumentException::class)
+  fun handle(e: IllegalArgumentException) {
+    throw e
+  }
 
   @EventHandler
   fun on(event: ProductCreatedEvent) {
@@ -25,5 +38,8 @@ class ProductEventsHandler(
         event.quantity
       )
     )
+
+    // fixme
+    if (true) throw RuntimeException("Exception to cause rollback")
   }
 }

@@ -1,6 +1,7 @@
 package com.github.reomor.productservice.core.error.handler
 
 import com.github.reomor.productservice.core.error.RestError
+import org.axonframework.commandhandling.CommandExecutionException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -18,6 +19,24 @@ class ProductServiceErrorHandler {
   )
   fun handleIllegalStateException(
     e: IllegalStateException,
+    request: WebRequest
+  ): ResponseEntity<RestError> {
+    return ResponseEntity(
+      RestError(
+        errorMessage = e.message
+      ),
+      HttpHeaders(),
+      HttpStatus.INTERNAL_SERVER_ERROR
+    )
+  }
+
+  @ExceptionHandler(
+    value = [
+      CommandExecutionException::class
+    ]
+  )
+  fun commandExecutionExceptionHandler(
+    e: CommandExecutionException,
     request: WebRequest
   ): ResponseEntity<RestError> {
     return ResponseEntity(
