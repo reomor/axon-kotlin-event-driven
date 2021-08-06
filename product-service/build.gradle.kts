@@ -15,10 +15,6 @@ plugins {
   id("io.spring.dependency-management")
 }
 
-group = "com.github.reomor"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
-
 configurations {
   compileOnly {
     extendsFrom(configurations.annotationProcessor.get())
@@ -28,10 +24,6 @@ configurations {
 noArg {
   annotation("org.axonframework.spring.stereotype.Aggregate")
   annotation("javax.persistence.Entity")
-}
-
-repositories {
-  mavenCentral()
 }
 
 dependencyManagement {

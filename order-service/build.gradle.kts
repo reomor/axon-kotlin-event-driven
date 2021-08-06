@@ -15,10 +15,6 @@ plugins {
   id("io.spring.dependency-management")
 }
 
-group = "com.github.reomor"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
-
 configurations {
   compileOnly {
     extendsFrom(configurations.annotationProcessor.get())
@@ -30,18 +26,27 @@ noArg {
   annotation("javax.persistence.Entity")
 }
 
-repositories {
-  mavenCentral()
-}
-
 dependencyManagement {
   imports {
     mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
   }
 }
 
-dependencies {
+//val instrumentedClasspath by configurations.creating {
+//  isCanBeConsumed = false
+//  isCanBeResolved = true
+//}
 
+dependencies {
+//  instrumentedClasspath(
+//    project(
+//      mapOf(
+//        "path" to ":core",
+//        "configuration" to "instrumentedJars"
+//      )
+//    )
+//  )
+  implementation(project(":core"))
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-validation")

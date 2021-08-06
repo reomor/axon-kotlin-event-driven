@@ -8,14 +8,11 @@ plugins {
   kotlin("jvm")
   kotlin("plugin.spring")
   kotlin("plugin.noarg")
+  `java-library`
 
   id("org.springframework.boot")
   id("io.spring.dependency-management")
 }
-
-group = "com.github.reomor"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
   compileOnly {
@@ -23,13 +20,22 @@ configurations {
   }
 }
 
+//val instrumentedJars: Configuration by configurations.creating {
+//  isCanBeConsumed = true
+//  isCanBeResolved = false
+//  // If you want this configuration to share the same dependencies, otherwise omit this line
+//  extendsFrom(configurations["implementation"], configurations["runtimeOnly"])
+//}
+
+//artifacts {
+//  add("instrumentedJars", tasks.jar) {
+////    builtBy(someTask)
+//  }
+//}
+
 noArg {
   annotation("org.axonframework.spring.stereotype.Aggregate")
   annotation("javax.persistence.Entity")
-}
-
-repositories {
-  mavenCentral()
 }
 
 dependencies {

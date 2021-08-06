@@ -1,4 +1,4 @@
-rootProject.name = "product-service"
+rootProject.name = "event-driven"
 
 pluginManagement {
 
@@ -16,3 +16,11 @@ pluginManagement {
     id("io.spring.dependency-management") version springDependencyVersion
   }
 }
+
+include(
+  "service-discovery",
+  "api-gateway",
+  "core",
+  "order-service",
+  "product-service"
+)
