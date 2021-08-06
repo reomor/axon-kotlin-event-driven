@@ -30,5 +30,5 @@ axoniq:
 
 ### H2
 
-[h2-console product-service](http://localhost:8082/product-service/h2-console)
-[h2-console order-service](http://localhost:8082/order-service/h2-console)
+* [h2-console product-service](http://localhost:8082/product-service/h2-console)
+* [h2-console order-service](http://localhost:8082/order-service/h2-console)

@@ -20,12 +20,12 @@ class ProductCommandController(
     ): CreateProductResponse {
 
         val command = CreateProductCommand.build {
-            productId = ProductId.randomUUID()
+            productId = ProductId(UUID.randomUUID().toString())
             name = request.name
             price = request.price
             quantity = request.quantity
         }
 
-        return CreateProductResponse(commandGateway.sendAndWait<UUID>(command))
+        return CreateProductResponse(ProductId(commandGateway.sendAndWait<String>(command)))
     }
 }

@@ -12,5 +12,5 @@ data class CreateProductRequest(
   val price: BigDecimal,
   @get:Min(value = 1, message = "The quantity cannot be less than 1")
   @get:Max(value = 5, message = "The quantity cannot be more than 5")
-  val quantity: Int
+  val quantity: Long
 )

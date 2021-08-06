@@ -1,6 +1,5 @@
 package com.github.reomor.productservice.core.jpa.entity
 
-import com.github.reomor.productservice.core.ProductId
 import java.io.Serializable
 import java.math.BigDecimal
 import javax.persistence.Column
@@ -13,9 +12,9 @@ import javax.persistence.Table
 data class ProductEntity(
   @Id
   @Column(unique = true)
-  val productId: ProductId,
+  val productId: String,
   @Column(unique = true)
   val name: String,
   val price: BigDecimal,
-  val quantity: Int
+  val quantity: Long
 ) : Serializable

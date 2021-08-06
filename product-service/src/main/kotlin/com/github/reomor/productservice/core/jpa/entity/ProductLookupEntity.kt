@@ -1,6 +1,5 @@
 package com.github.reomor.productservice.core.jpa.entity
 
-import com.github.reomor.productservice.core.ProductId
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -12,7 +11,7 @@ import javax.persistence.Table
 data class ProductLookupEntity(
   @Id
   @Column(unique = true)
-  val productId: ProductId,
+  val productId: String,
   @Column(unique = true)
   val name: String,
 ) : Serializable

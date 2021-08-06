@@ -26,7 +26,7 @@ data class CreateOrderCommand(
   class Builder {
 
     var orderId: OrderId = OrderId(UUID.randomUUID().toString())
-    var userId: UserId = UserId("27b95829-4f3f-4ddf-8983-151ba010e35b")
+    var userId: UserId = UserId.NONE
     var productId: ProductId = ProductId.NONE
     var quantity: Long = 0
     var addressId: AddressId = AddressId.NONE

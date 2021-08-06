@@ -5,6 +5,7 @@ import com.github.reomor.orderservice.command.rest.dto.CreateOrderRequest
 import com.github.reomor.orderservice.command.rest.dto.CreateOrderResponse
 import com.github.reomor.orderservice.core.OrderId
 import com.github.reomor.orderservice.core.OrderStatus
+import com.github.reomor.orderservice.core.UserId
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -29,6 +30,8 @@ class OrdersCommandController(
       orderStatus = OrderStatus.CREATED
     }
 
-    return CreateOrderResponse(OrderId(commandGateway.sendAndWait<String>(command)))
+    val userId = UserId("27b95829-4f3f-4ddf-8983-151ba010e35b")
+
+    return CreateOrderResponse(OrderId(commandGateway.sendAndWait<String>(command.copy(userId = userId))))
   }
 }

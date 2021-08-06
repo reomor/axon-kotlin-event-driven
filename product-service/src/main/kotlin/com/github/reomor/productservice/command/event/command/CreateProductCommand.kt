@@ -10,7 +10,7 @@ data class CreateProductCommand(
   val productId: ProductId,
   val name: String,
   val price: BigDecimal,
-  val quantity: Int
+  val quantity: Long
 ) {
 
   private constructor(builder: Builder) : this(
@@ -22,10 +22,10 @@ data class CreateProductCommand(
 
   class Builder {
 
-    var productId: ProductId = UUID.randomUUID()
+    var productId: ProductId = ProductId(UUID.randomUUID().toString())
     var name: String = ""
     var price: BigDecimal = BigDecimal.ZERO
-    var quantity: Int = 0
+    var quantity: Long = 0
 
     fun build() = CreateProductCommand(this)
   }

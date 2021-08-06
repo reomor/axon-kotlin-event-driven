@@ -1,6 +1,8 @@
-package com.github.reomor.productservice.command.event.command
+package com.github.reomor.productservice.command.aggregate
 
-import com.github.reomor.productservice.core.ProductId
+import com.github.reomor.core.command.ReserveProductCommand
+import com.github.reomor.core.event.domain.ProductReservedEvent
+import com.github.reomor.productservice.command.event.command.CreateProductCommand
 import com.github.reomor.productservice.core.event.domain.ProductCreatedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
@@ -8,17 +10,16 @@ import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle
 import org.axonframework.spring.stereotype.Aggregate
 import java.math.BigDecimal
-import java.math.BigDecimal.*
-import kotlin.IllegalArgumentException
+import java.math.BigDecimal.ZERO
 
 @Aggregate
 internal class ProductAggregate {
 
   @AggregateIdentifier
-  private lateinit var productId: ProductId
+  private lateinit var productId: String
   private lateinit var name: String
   private lateinit var price: BigDecimal
-  private var quantity: Int = 0
+  private var quantity: Long = 0
 
   @CommandHandler
   constructor(command: CreateProductCommand) {
@@ -36,11 +37,33 @@ internal class ProductAggregate {
     )
   }
 
+  @CommandHandler
+  fun handle(command: ReserveProductCommand) {
+
+    if (quantity < command.quantity) {
+      throw IllegalArgumentException("Insufficient number of products in stock")
+    }
+
+    AggregateLifecycle.apply(
+      ProductReservedEvent(
+        productId = command.productId,
+        quantity = command.quantity,
+        orderId = command.orderId,
+        userId = command.userId
+      )
+    )
+  }
+
   @EventSourcingHandler
   fun on(event: ProductCreatedEvent) {
-    productId = event.productId
+    productId = event.productId.asString()
     name = event.name
     price = event.price
     quantity = event.quantity
+  }
+
+  @EventSourcingHandler
+  fun on(event: ProductReservedEvent) {
+    quantity -= event.quantity
   }
 }

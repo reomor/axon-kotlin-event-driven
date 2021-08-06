@@ -7,5 +7,5 @@ data class ProductCreatedEvent(
   val productId: ProductId,
   val name: String,
   val price: BigDecimal,
-  val quantity: Int
+  val quantity: Long
 )

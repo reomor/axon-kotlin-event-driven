@@ -25,7 +25,7 @@ class CreateProductCommandInterceptor(
         if (createProductCommand is CreateProductCommand) {
 
           val lookupEntity = productLookupRepository.findByProductIdOrName(
-            createProductCommand.productId,
+            createProductCommand.productId.asString(),
             createProductCommand.name
           )
 

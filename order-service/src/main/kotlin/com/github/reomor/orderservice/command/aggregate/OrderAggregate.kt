@@ -1,5 +1,6 @@
-package com.github.reomor.orderservice.command.event.command
+package com.github.reomor.orderservice.command.aggregate
 
+import com.github.reomor.orderservice.command.event.command.CreateOrderCommand
 import com.github.reomor.orderservice.core.*
 import com.github.reomor.orderservice.core.event.domain.OrderCreatedEvent
 import org.axonframework.commandhandling.CommandHandler
@@ -12,22 +13,22 @@ import org.axonframework.spring.stereotype.Aggregate
 class OrderAggregate {
 
   @AggregateIdentifier
-  private var productId: ProductId = ProductId.NONE
-  private var orderId: OrderId = OrderId.NONE
-  private var userId: UserId = UserId.NONE
+  private lateinit var orderId: String
+  private lateinit var productId: String
+  private lateinit var userId: String
   private var quantity: Long = 0
-  private var addressId: AddressId = AddressId.NONE
-  private var orderStatus: OrderStatus? = null
+  private lateinit var addressId: String
+  private lateinit var orderStatus: OrderStatus
 
   @CommandHandler
   constructor(command: CreateOrderCommand) {
     AggregateLifecycle.apply(
       OrderCreatedEvent(
-        productId = command.productId,
-        orderId = command.orderId,
-        userId = command.userId,
+        productId = command.productId.asString(),
+        orderId = command.orderId.asString(),
+        userId = command.userId.asString(),
         quantity = command.quantity,
-        addressId = command.addressId,
+        addressId = command.addressId.asString(),
         orderStatus = command.orderStatus
       )
     )
@@ -35,8 +36,8 @@ class OrderAggregate {
 
   @EventSourcingHandler
   fun on(event: OrderCreatedEvent) {
-    productId = event.productId
     orderId = event.orderId
+    productId = event.productId
     userId = event.userId
     quantity = event.quantity
     addressId = event.addressId

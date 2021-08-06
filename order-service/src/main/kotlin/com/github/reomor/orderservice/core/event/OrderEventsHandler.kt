@@ -15,10 +15,10 @@ class OrderEventsHandler(
   fun on(event: OrderCreatedEvent) {
     orderRepository.save(
       OrderEntity(
-        orderId = event.orderId.asString(),
-        productId = event.productId.asString(),
-        userId = event.userId.asString(),
-        addressId = event.addressId.asString(),
+        orderId = event.orderId,
+        productId = event.productId,
+        userId = event.userId,
+        addressId = event.addressId,
         quantity = event.quantity,
         orderStatus = event.orderStatus
       )

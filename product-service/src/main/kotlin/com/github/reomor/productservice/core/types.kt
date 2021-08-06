@@ -1,5 +1,11 @@
 package com.github.reomor.productservice.core
 
-import java.util.*
+@JvmInline
+value class ProductId(private val id: String) {
 
-typealias ProductId = UUID
+  companion object {
+    val NONE = ProductId("")
+  }
+
+  fun asString() = id
+}

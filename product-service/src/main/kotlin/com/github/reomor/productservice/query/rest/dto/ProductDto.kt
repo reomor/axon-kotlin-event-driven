@@ -6,5 +6,5 @@ class ProductDto(
   val productId: String,
   val name: String,
   val price: BigDecimal,
-  val quantity: Int
+  val quantity: Long
 )
