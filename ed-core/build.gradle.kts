@@ -20,19 +20,6 @@ configurations {
   }
 }
 
-//val instrumentedJars: Configuration by configurations.creating {
-//  isCanBeConsumed = true
-//  isCanBeResolved = false
-//  // If you want this configuration to share the same dependencies, otherwise omit this line
-//  extendsFrom(configurations["implementation"], configurations["runtimeOnly"])
-//}
-
-//artifacts {
-//  add("instrumentedJars", tasks.jar) {
-////    builtBy(someTask)
-//  }
-//}
-
 noArg {
   annotation("org.axonframework.spring.stereotype.Aggregate")
   annotation("javax.persistence.Entity")

@@ -1,5 +1,7 @@
 rootProject.name = "event-driven"
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
 
   val kotlinVersion: String by settings
@@ -18,9 +20,9 @@ pluginManagement {
 }
 
 include(
-  "service-discovery",
-  "api-gateway",
-  "core",
-  "order-service",
-  "product-service"
+  "ed-service-discovery",
+  "ed-api-gateway",
+  "ed-core",
+  "ed-order-service",
+  "ed-product-service"
 )

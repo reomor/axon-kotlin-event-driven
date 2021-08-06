@@ -32,21 +32,9 @@ dependencyManagement {
   }
 }
 
-//val instrumentedClasspath by configurations.creating {
-//  isCanBeConsumed = false
-//  isCanBeResolved = true
-//}
-
 dependencies {
-//  instrumentedClasspath(
-//    project(
-//      mapOf(
-//        "path" to ":core",
-//        "configuration" to "instrumentedJars"
-//      )
-//    )
-//  )
-  implementation(project(":core"))
+
+  implementation(projects.edCore)
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-validation")
