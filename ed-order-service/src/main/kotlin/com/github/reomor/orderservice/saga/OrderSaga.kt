@@ -1,5 +1,6 @@
 package com.github.reomor.orderservice.saga
 
+import com.github.reomor.core.OrderId
 import com.github.reomor.core.UserId
 import com.github.reomor.core.command.ProcessPaymentCommand
 import com.github.reomor.core.command.ReserveProductCommand
@@ -7,6 +8,7 @@ import com.github.reomor.core.domain.User
 import com.github.reomor.core.domain.event.PaymentProcessedEvent
 import com.github.reomor.core.domain.event.ProductReservedEvent
 import com.github.reomor.core.query.FetchUserPaymentDetailsQuery
+import com.github.reomor.orderservice.command.ApproveOrderCommand
 import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
@@ -107,7 +109,12 @@ class OrderSaga {
   @EndSaga
   @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
   fun handle(event: PaymentProcessedEvent) {
+
     log.info("Handle PaymentProcessedEvent: {}", event)
+
+    commandGateway.send<String>(ApproveOrderCommand.build {
+      orderId = OrderId(event.orderId)
+    })
   }
 
   companion object {
