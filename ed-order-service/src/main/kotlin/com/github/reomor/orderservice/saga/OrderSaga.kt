@@ -16,20 +16,22 @@ import com.github.reomor.orderservice.core.domain.event.OrderApprovedEvent
 import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
 import com.github.reomor.orderservice.core.domain.event.OrderRejectedEvent
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.deadline.DeadlineManager
+import org.axonframework.deadline.annotation.DeadlineHandler
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.modelling.saga.EndSaga
 import org.axonframework.modelling.saga.SagaEventHandler
-import org.axonframework.modelling.saga.SagaLifecycle
 import org.axonframework.modelling.saga.StartSaga
 import org.axonframework.queryhandling.QueryGateway
 import org.axonframework.spring.stereotype.Saga
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import java.time.Duration
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 const val ORDER_ID_ASSOCIATION = "orderId"
+const val PAYMENT_PROCESSING_DEADLINE = "payment-processing-deadline"
 
 @Saga
 class OrderSaga {
@@ -41,6 +43,12 @@ class OrderSaga {
   @Autowired
   @Transient
   private lateinit var queryGateway: QueryGateway
+
+  @Autowired
+  @Transient
+  private lateinit var deadlineManager: DeadlineManager
+
+  private var scheduleId: String? = null
 
   @StartSaga
   @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
@@ -89,15 +97,23 @@ class OrderSaga {
 
     log.info("Get User: {}", user)
 
+    // define deadline instead of wait in sendAndWait
+    scheduleId = deadlineManager.schedule(
+      Duration.ofMinutes(120),
+      PAYMENT_PROCESSING_DEADLINE,
+      event
+    )
+
+//    to cause deadline
+//    if (true) return
+
     val paymentId = try {
       commandGateway.sendAndWait<String>(
         ProcessPaymentCommand(
           paymentId = UUID.randomUUID().toString(),
           orderId = event.orderId,
           paymentDetails = user.paymentDetails
-        ),
-        10,
-        TimeUnit.SECONDS
+        )
       )
     } catch (e: Exception) {
       log.error("Error: {}", e.message)
@@ -112,6 +128,8 @@ class OrderSaga {
 
   @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
   fun handle(event: PaymentProcessedEvent) {
+
+    cancelDeadline()
 
     log.info("Handle PaymentProcessedEvent: {}", event)
 
@@ -149,10 +167,21 @@ class OrderSaga {
     log.info("Order is rejected: {}", event.orderId)
   }
 
+  @DeadlineHandler(deadlineName = PAYMENT_PROCESSING_DEADLINE)
+  fun handlePaymentDeadline(event: ProductReservedEvent) {
+
+    log.info("Payment processing deadline took place. Sending compensating ...")
+
+    cancelProductReservationCommand(event, "Deadline timeout")
+  }
+
   /**
    * Compensating transaction for [ProductReservedEvent]
    */
-  fun cancelProductReservationCommand(event: ProductReservedEvent, reason: String) {
+  private fun cancelProductReservationCommand(event: ProductReservedEvent, reason: String) {
+
+    cancelDeadline()
+
     commandGateway.send<String>(
       CancelProductReservationCommand(
         productId = event.productId,
@@ -162,6 +191,18 @@ class OrderSaga {
         reason = reason
       )
     )
+  }
+
+  /**
+   * Cancel planned deadline to execute
+   * Not need to wait because of success or already running compensating transaction
+   */
+  private fun cancelDeadline() {
+//    deadlineManager.cancelAll(PAYMENT_PROCESSING_DEADLINE)
+    if (scheduleId != null) {
+      deadlineManager.cancelSchedule(PAYMENT_PROCESSING_DEADLINE, scheduleId)
+      scheduleId = null
+    }
   }
 
   companion object {
