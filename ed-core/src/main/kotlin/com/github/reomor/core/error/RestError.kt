@@ -1,4 +1,4 @@
-package com.github.reomor.productservice.core.error
+package com.github.reomor.core.error
 
 import java.time.LocalDateTime
 

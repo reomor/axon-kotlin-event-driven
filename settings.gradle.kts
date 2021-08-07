@@ -25,5 +25,6 @@ include(
   "ed-core",
   "ed-order-service",
   "ed-product-service",
-  "ed-user-service"
+  "ed-user-service",
+  "ed-payment-service"
 )

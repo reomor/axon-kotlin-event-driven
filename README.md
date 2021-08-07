@@ -11,7 +11,11 @@
 ### Run order for debug
 
 - Discovery Service
-- Product Service, Order Service, User Service
+- Business services:
+  * Product Service
+  * Order Service
+  * User Service
+  * Payment service
 - Api gateway
 
 ### [Axon](https://axoniq.io)

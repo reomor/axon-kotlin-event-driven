@@ -1,10 +1,10 @@
 package com.github.reomor.orderservice.command.rest
 
+import com.github.reomor.core.OrderId
 import com.github.reomor.core.UserId
 import com.github.reomor.orderservice.command.CreateOrderCommand
 import com.github.reomor.orderservice.command.rest.dto.CreateOrderRequest
 import com.github.reomor.orderservice.command.rest.dto.CreateOrderResponse
-import com.github.reomor.orderservice.core.OrderId
 import com.github.reomor.orderservice.core.OrderStatus
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.web.bind.annotation.PostMapping

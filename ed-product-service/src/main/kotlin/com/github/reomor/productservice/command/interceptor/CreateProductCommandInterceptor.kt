@@ -15,7 +15,9 @@ class CreateProductCommandInterceptor(
 
   private val logger = LoggerFactory.getLogger(javaClass)
 
-  override fun handle(messages: MutableList<out CommandMessage<*>>?): BiFunction<Int, CommandMessage<*>, CommandMessage<*>> {
+  override fun handle(
+    messages: MutableList<out CommandMessage<*>>?
+  ): BiFunction<Int, CommandMessage<*>, CommandMessage<*>> {
     return BiFunction { _, command ->
 
       logger.info("Intercepted command: {}", command.payload)

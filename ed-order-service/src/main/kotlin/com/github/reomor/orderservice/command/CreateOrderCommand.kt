@@ -1,5 +1,6 @@
 package com.github.reomor.orderservice.command
 
+import com.github.reomor.core.OrderId
 import com.github.reomor.core.UserId
 import com.github.reomor.orderservice.core.*
 import org.axonframework.modelling.command.TargetAggregateIdentifier

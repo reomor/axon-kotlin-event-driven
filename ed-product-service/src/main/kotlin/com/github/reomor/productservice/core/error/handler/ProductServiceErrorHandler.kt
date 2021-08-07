@@ -1,6 +1,6 @@
 package com.github.reomor.productservice.core.error.handler
 
-import com.github.reomor.productservice.core.error.RestError
+import com.github.reomor.core.error.RestError
 import org.axonframework.commandhandling.CommandExecutionException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus

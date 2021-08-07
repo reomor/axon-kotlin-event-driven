@@ -1,16 +1,6 @@
 package com.github.reomor.orderservice.core
 
 @JvmInline
-value class OrderId(private val id: String) {
-
-  companion object {
-    val NONE = OrderId("")
-  }
-
-  fun asString() = id
-}
-
-@JvmInline
 value class ProductId(private val id: String) {
 
   companion object {
