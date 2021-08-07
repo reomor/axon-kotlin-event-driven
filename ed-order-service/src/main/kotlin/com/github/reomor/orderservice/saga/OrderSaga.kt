@@ -1,12 +1,17 @@
 package com.github.reomor.orderservice.saga
 
+import com.github.reomor.core.UserId
 import com.github.reomor.core.command.ReserveProductCommand
+import com.github.reomor.core.domain.User
 import com.github.reomor.core.domain.event.ProductReservedEvent
+import com.github.reomor.core.query.FetchUserPaymentDetailsQuery
 import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.modelling.saga.EndSaga
 import org.axonframework.modelling.saga.SagaEventHandler
 import org.axonframework.modelling.saga.StartSaga
+import org.axonframework.queryhandling.QueryGateway
 import org.axonframework.spring.stereotype.Saga
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,6 +25,10 @@ class OrderSaga {
   @Autowired
   @Transient
   private lateinit var commandGateway: CommandGateway
+
+  @Autowired
+  @Transient
+  private lateinit var queryGateway: QueryGateway
 
   @StartSaga
   @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
@@ -38,6 +47,7 @@ class OrderSaga {
       reserveProductCommand,
       { _, commandResultMessage ->
         if (commandResultMessage.isExceptional) {
+          // todo
           // commandMessage
           // start compensating transaction
           log.error("Error: {}", commandResultMessage.exceptionResult().message)
@@ -50,6 +60,24 @@ class OrderSaga {
   fun handle(event: ProductReservedEvent) {
     // process user payment
     log.info("Handle ProductReservedEvent: {}", event)
+
+    val user: User? = try {
+        queryGateway.query(
+          FetchUserPaymentDetailsQuery(UserId(event.userId)),
+          ResponseTypes.instanceOf(User::class.java)
+        ).join()
+    } catch (e: Exception) {
+      log.error("Error: {}", e.message)
+      null
+    }
+
+    if (user == null) {
+      // todo
+      // start compensating transaction
+      return
+    }
+
+    log.info("Get User: {}", user)
   }
 
   companion object {

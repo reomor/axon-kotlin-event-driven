@@ -6,6 +6,7 @@ import org.axonframework.eventhandling.ListenerInvocationErrorHandler
 import java.lang.Exception
 
 class ProductServiceEventErrorHandler : ListenerInvocationErrorHandler {
+  // todo
   // here we can determine the rollback actions
   override fun onError(
     exception: Exception?,

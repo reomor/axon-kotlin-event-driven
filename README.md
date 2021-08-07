@@ -11,13 +11,13 @@
 ### Run order for debug
 
 - Discovery Service
-- Product Service, Order Service
+- Product Service, Order Service, User Service
 - Api gateway
 
 ### [Axon](https://axoniq.io)
 
 ```yml
-# C:\AxonServer-4.5.5\config\axonserver.yml
+# C:\AxonServer-4.5.6\config\axonserver.yml
 server:
   port: 8024
 axoniq:
