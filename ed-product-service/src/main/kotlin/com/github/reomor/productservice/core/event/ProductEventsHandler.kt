@@ -1,5 +1,6 @@
 package com.github.reomor.productservice.core.event
 
+import com.github.reomor.core.domain.event.ProductReservationCancelEvent
 import com.github.reomor.core.domain.event.ProductReservedEvent
 import com.github.reomor.productservice.core.domain.event.ProductCreatedEvent
 import com.github.reomor.productservice.core.jpa.entity.ProductEntity
@@ -45,13 +46,30 @@ class ProductEventsHandler(
 
   @EventHandler
   fun on(event: ProductReservedEvent) {
+
     log.info("Handle ProductReservedEvent: {}", event)
+
     val productEntity = productRepository.findByProductId(event.productId)
     if (productEntity != null) {
       productRepository.save(
         productEntity.copy(quantity = productEntity.quantity - event.quantity)
       )
     } else {
+      throw IllegalArgumentException("Product(id=${event.productId} is not found")
+    }
+  }
+
+  @EventHandler
+  fun on(event: ProductReservationCancelEvent) {
+
+    log.info("Handle ProductReservationCancelEvent: {}", event)
+
+    val productEntity = productRepository.findByProductId(event.productId)
+    if (productEntity != null) {
+      productRepository.save(
+        productEntity.copy(quantity = productEntity.quantity + event.quantity)
+      )
+    } else{
       throw IllegalArgumentException("Product(id=${event.productId} is not found")
     }
   }

@@ -1,6 +1,8 @@
 package com.github.reomor.productservice.command.aggregate
 
+import com.github.reomor.core.command.CancelProductReservationCommand
 import com.github.reomor.core.command.ReserveProductCommand
+import com.github.reomor.core.domain.event.ProductReservationCancelEvent
 import com.github.reomor.core.domain.event.ProductReservedEvent
 import com.github.reomor.productservice.command.CreateProductCommand
 import com.github.reomor.productservice.core.domain.event.ProductCreatedEvent
@@ -54,6 +56,19 @@ internal class ProductAggregate {
     )
   }
 
+  @CommandHandler
+  fun handle(command: CancelProductReservationCommand) {
+    AggregateLifecycle.apply(
+      ProductReservationCancelEvent(
+        productId = command.productId,
+        quantity = command.quantity,
+        orderId = command.orderId,
+        userId = command.userId,
+        reason = command.reason
+      )
+    )
+  }
+
   @EventSourcingHandler
   fun on(event: ProductCreatedEvent) {
     productId = event.productId.asString()
@@ -65,5 +80,10 @@ internal class ProductAggregate {
   @EventSourcingHandler
   fun on(event: ProductReservedEvent) {
     quantity -= event.quantity
+  }
+
+  @EventSourcingHandler
+  fun on(event: ProductReservationCancelEvent) {
+    quantity += event.quantity
   }
 }

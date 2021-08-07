@@ -2,10 +2,12 @@ package com.github.reomor.orderservice.saga
 
 import com.github.reomor.core.OrderId
 import com.github.reomor.core.UserId
+import com.github.reomor.core.command.CancelProductReservationCommand
 import com.github.reomor.core.command.ProcessPaymentCommand
 import com.github.reomor.core.command.ReserveProductCommand
 import com.github.reomor.core.domain.User
 import com.github.reomor.core.domain.event.PaymentProcessedEvent
+import com.github.reomor.core.domain.event.ProductReservationCancelEvent
 import com.github.reomor.core.domain.event.ProductReservedEvent
 import com.github.reomor.core.query.FetchUserPaymentDetailsQuery
 import com.github.reomor.orderservice.command.ApproveOrderCommand
@@ -69,18 +71,17 @@ class OrderSaga {
     log.info("Handle ProductReservedEvent: {}", event)
 
     val user: User? = try {
-        queryGateway.query(
-          FetchUserPaymentDetailsQuery(UserId(event.userId)),
-          ResponseTypes.instanceOf(User::class.java)
-        ).join()
+      queryGateway.query(
+        FetchUserPaymentDetailsQuery(UserId(event.userId)),
+        ResponseTypes.instanceOf(User::class.java)
+      ).join()
     } catch (e: Exception) {
       log.error("Error: {}", e.message)
       null
     }
 
     if (user == null) {
-      // todo
-      // start compensating transaction
+      cancelProductReservationCommand(event, "Error or null user")
       return
     }
 
@@ -102,8 +103,7 @@ class OrderSaga {
     }
 
     if (paymentId == null) {
-      // todo
-      // start compensating transaction
+      cancelProductReservationCommand(event, "Error or null payment")
       return
     }
   }
@@ -124,6 +124,26 @@ class OrderSaga {
     log.info("Order is approved: {}", event.orderId)
     // alternative way of @EndSaga
 //    SagaLifecycle.end()
+  }
+
+  @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
+  fun handle(event: ProductReservationCancelEvent) {
+
+  }
+
+  /**
+   * Compensating transaction for [ProductReservedEvent]
+   */
+  fun cancelProductReservationCommand(event: ProductReservedEvent, reason: String) {
+    commandGateway.send<String>(
+      CancelProductReservationCommand(
+        productId = event.productId,
+        quantity = event.quantity,
+        orderId = event.orderId,
+        userId = event.userId,
+        reason = reason
+      )
+    )
   }
 
   companion object {
