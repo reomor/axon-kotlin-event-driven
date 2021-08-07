@@ -16,7 +16,7 @@ class ProductQueryHandler(
     productRepository.findAll()
       .map { product ->
         ProductDto(
-          product.productId.toString(),
+          product.productId,
           product.name,
           product.price,
           product.quantity

@@ -85,7 +85,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"ipnohe -11\",\r\n    \"price\": 3.66,\r\n    \"quantity\": 4\r\n}",
+					"raw": "{\r\n    \"name\": \"reserved\",\r\n    \"price\": 3.66,\r\n    \"quantity\": 4\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -135,6 +135,40 @@
 						"v1",
 						"orders",
 						"command"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/order-service/v1/orders/command Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"f241af45-4854-43f4-95bc-ab54da338a29\",\r\n    \"quantity\": 1,\r\n    \"addressId\": \"afbb5881-a872-4d13-993c-faeb8350eea5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:10001/v1/users/1234abcd/payment-details",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10001",
+					"path": [
+						"v1",
+						"users",
+						"1234abcd",
+						"payment-details"
 					]
 				}
 			},

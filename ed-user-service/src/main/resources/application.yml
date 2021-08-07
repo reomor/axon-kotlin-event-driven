@@ -1,0 +1,8 @@
+server:
+  port: 10001
+  error:
+    include-message: always
+    include-binding-errors: always
+spring:
+  application:
+    name: user-service
