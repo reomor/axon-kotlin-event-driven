@@ -9,11 +9,13 @@ import com.github.reomor.core.domain.event.PaymentProcessedEvent
 import com.github.reomor.core.domain.event.ProductReservedEvent
 import com.github.reomor.core.query.FetchUserPaymentDetailsQuery
 import com.github.reomor.orderservice.command.ApproveOrderCommand
+import com.github.reomor.orderservice.core.domain.event.OrderApprovedEvent
 import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.modelling.saga.EndSaga
 import org.axonframework.modelling.saga.SagaEventHandler
+import org.axonframework.modelling.saga.SagaLifecycle
 import org.axonframework.modelling.saga.StartSaga
 import org.axonframework.queryhandling.QueryGateway
 import org.axonframework.spring.stereotype.Saga
@@ -106,7 +108,6 @@ class OrderSaga {
     }
   }
 
-  @EndSaga
   @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
   fun handle(event: PaymentProcessedEvent) {
 
@@ -115,6 +116,14 @@ class OrderSaga {
     commandGateway.send<String>(ApproveOrderCommand.build {
       orderId = OrderId(event.orderId)
     })
+  }
+
+  @EndSaga
+  @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
+  fun handle(event: OrderApprovedEvent) {
+    log.info("Order is approved: {}", event.orderId)
+    // alternative way of @EndSaga
+//    SagaLifecycle.end()
   }
 
   companion object {

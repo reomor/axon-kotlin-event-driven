@@ -1,5 +1,6 @@
 package com.github.reomor.orderservice.core.event
 
+import com.github.reomor.orderservice.core.domain.event.OrderApprovedEvent
 import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
 import com.github.reomor.orderservice.core.jpa.entity.OrderEntity
 import com.github.reomor.orderservice.core.jpa.repository.OrderRepository
@@ -22,6 +23,20 @@ class OrderEventsHandler(
         quantity = event.quantity,
         orderStatus = event.orderStatus
       )
+    )
+  }
+
+  @EventHandler
+  fun on(event: OrderApprovedEvent) {
+
+    val orderEntity = orderRepository.findByOrderId(event.orderId)
+
+    if (orderEntity == null) {
+      return
+    }
+
+    orderRepository.save(
+      orderEntity.copy(orderStatus = event.orderStatus)
     )
   }
 }
