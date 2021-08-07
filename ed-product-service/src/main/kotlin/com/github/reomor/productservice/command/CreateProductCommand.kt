@@ -1,4 +1,4 @@
-package com.github.reomor.productservice.command.event.command
+package com.github.reomor.productservice.command
 
 import com.github.reomor.productservice.core.ProductId
 import org.axonframework.modelling.command.TargetAggregateIdentifier

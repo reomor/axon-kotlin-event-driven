@@ -1,6 +1,6 @@
 package com.github.reomor.productservice.command.rest
 
-import com.github.reomor.productservice.command.event.command.CreateProductCommand
+import com.github.reomor.productservice.command.CreateProductCommand
 import com.github.reomor.productservice.command.rest.dto.CreateProductRequest
 import com.github.reomor.productservice.command.rest.dto.CreateProductResponse
 import com.github.reomor.productservice.core.ProductId

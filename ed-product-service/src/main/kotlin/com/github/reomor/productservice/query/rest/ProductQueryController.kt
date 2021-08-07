@@ -1,6 +1,6 @@
 package com.github.reomor.productservice.query.rest
 
-import com.github.reomor.productservice.query.event.query.FindProductQuery
+import com.github.reomor.productservice.query.FindProductQuery
 import com.github.reomor.productservice.query.rest.dto.ProductDto
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.queryhandling.QueryGateway

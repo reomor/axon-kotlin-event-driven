@@ -1,4 +1,4 @@
-package com.github.reomor.orderservice.core.event.domain
+package com.github.reomor.orderservice.core.domain.event
 
 import com.github.reomor.orderservice.core.*
 

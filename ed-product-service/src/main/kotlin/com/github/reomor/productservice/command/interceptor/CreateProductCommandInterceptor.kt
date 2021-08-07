@@ -1,6 +1,6 @@
 package com.github.reomor.productservice.command.interceptor
 
-import com.github.reomor.productservice.command.event.command.CreateProductCommand
+import com.github.reomor.productservice.command.CreateProductCommand
 import com.github.reomor.productservice.core.jpa.repository.ProductLookupRepository
 import org.axonframework.commandhandling.CommandMessage
 import org.axonframework.messaging.MessageDispatchInterceptor

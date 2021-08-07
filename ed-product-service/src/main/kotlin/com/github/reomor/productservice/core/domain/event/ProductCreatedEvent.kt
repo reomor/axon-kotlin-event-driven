@@ -1,4 +1,4 @@
-package com.github.reomor.productservice.core.event.domain
+package com.github.reomor.productservice.core.domain.event
 
 import com.github.reomor.productservice.core.ProductId
 import java.math.BigDecimal

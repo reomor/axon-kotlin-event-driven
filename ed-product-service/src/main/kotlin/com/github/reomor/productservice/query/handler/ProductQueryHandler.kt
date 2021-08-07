@@ -1,7 +1,7 @@
-package com.github.reomor.productservice.query.event
+package com.github.reomor.productservice.query.handler
 
 import com.github.reomor.productservice.core.jpa.repository.ProductRepository
-import com.github.reomor.productservice.query.event.query.FindProductQuery
+import com.github.reomor.productservice.query.FindProductQuery
 import com.github.reomor.productservice.query.rest.dto.ProductDto
 import org.axonframework.queryhandling.QueryHandler
 import org.springframework.stereotype.Component

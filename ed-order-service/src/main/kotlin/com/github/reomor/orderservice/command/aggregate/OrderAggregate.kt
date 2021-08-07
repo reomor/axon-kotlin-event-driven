@@ -1,8 +1,8 @@
 package com.github.reomor.orderservice.command.aggregate
 
-import com.github.reomor.orderservice.command.event.command.CreateOrderCommand
+import com.github.reomor.orderservice.command.CreateOrderCommand
 import com.github.reomor.orderservice.core.*
-import com.github.reomor.orderservice.core.event.domain.OrderCreatedEvent
+import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier

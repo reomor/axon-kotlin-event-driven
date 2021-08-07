@@ -1,8 +1,8 @@
 package com.github.reomor.orderservice.saga
 
 import com.github.reomor.core.command.ReserveProductCommand
-import com.github.reomor.core.event.domain.ProductReservedEvent
-import com.github.reomor.orderservice.core.event.domain.OrderCreatedEvent
+import com.github.reomor.core.domain.event.ProductReservedEvent
+import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.modelling.saga.EndSaga
 import org.axonframework.modelling.saga.SagaEventHandler

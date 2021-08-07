@@ -1,8 +1,7 @@
 package com.github.reomor.productservice.core.event
 
-import com.github.reomor.core.event.domain.ProductReservedEvent
-import com.github.reomor.productservice.core.ProductId
-import com.github.reomor.productservice.core.event.domain.ProductCreatedEvent
+import com.github.reomor.core.domain.event.ProductReservedEvent
+import com.github.reomor.productservice.core.domain.event.ProductCreatedEvent
 import com.github.reomor.productservice.core.jpa.entity.ProductEntity
 import com.github.reomor.productservice.core.jpa.repository.ProductRepository
 import org.axonframework.config.ProcessingGroup
@@ -11,7 +10,6 @@ import org.axonframework.messaging.interceptors.ExceptionHandler
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-import java.util.*
 
 const val PRODUCT_EVENTS_GROUP = "product-group"
 

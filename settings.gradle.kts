@@ -24,5 +24,6 @@ include(
   "ed-api-gateway",
   "ed-core",
   "ed-order-service",
-  "ed-product-service"
+  "ed-product-service",
+  "ed-user-service"
 )

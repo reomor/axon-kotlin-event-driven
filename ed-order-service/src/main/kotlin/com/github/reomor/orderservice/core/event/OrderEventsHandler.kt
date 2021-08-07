@@ -1,6 +1,6 @@
 package com.github.reomor.orderservice.core.event
 
-import com.github.reomor.orderservice.core.event.domain.OrderCreatedEvent
+import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
 import com.github.reomor.orderservice.core.jpa.entity.OrderEntity
 import com.github.reomor.orderservice.core.jpa.repository.OrderRepository
 import org.axonframework.eventhandling.EventHandler

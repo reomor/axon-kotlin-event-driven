@@ -1,4 +1,4 @@
-package com.github.reomor.core.event.domain
+package com.github.reomor.core.domain.event
 
 data class ProductReservedEvent(
   val productId: String,

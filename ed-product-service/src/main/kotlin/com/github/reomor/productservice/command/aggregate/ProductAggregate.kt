@@ -1,9 +1,9 @@
 package com.github.reomor.productservice.command.aggregate
 
 import com.github.reomor.core.command.ReserveProductCommand
-import com.github.reomor.core.event.domain.ProductReservedEvent
-import com.github.reomor.productservice.command.event.command.CreateProductCommand
-import com.github.reomor.productservice.core.event.domain.ProductCreatedEvent
+import com.github.reomor.core.domain.event.ProductReservedEvent
+import com.github.reomor.productservice.command.CreateProductCommand
+import com.github.reomor.productservice.core.domain.event.ProductCreatedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier

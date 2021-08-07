@@ -1,7 +1,7 @@
 package com.github.reomor.productservice.command.event
 
 import com.github.reomor.productservice.core.event.PRODUCT_EVENTS_GROUP
-import com.github.reomor.productservice.core.event.domain.ProductCreatedEvent
+import com.github.reomor.productservice.core.domain.event.ProductCreatedEvent
 import com.github.reomor.productservice.core.jpa.entity.ProductLookupEntity
 import com.github.reomor.productservice.core.jpa.repository.ProductLookupRepository
 import org.axonframework.config.ProcessingGroup
