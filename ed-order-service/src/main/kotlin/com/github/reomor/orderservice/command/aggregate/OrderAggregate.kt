@@ -2,9 +2,11 @@ package com.github.reomor.orderservice.command.aggregate
 
 import com.github.reomor.orderservice.command.ApproveOrderCommand
 import com.github.reomor.orderservice.command.CreateOrderCommand
+import com.github.reomor.orderservice.command.RejectOrderCommand
 import com.github.reomor.orderservice.core.*
 import com.github.reomor.orderservice.core.domain.event.OrderApprovedEvent
 import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
+import com.github.reomor.orderservice.core.domain.event.OrderRejectedEvent
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
@@ -36,6 +38,25 @@ class OrderAggregate {
     )
   }
 
+  @CommandHandler
+  fun handle(command: ApproveOrderCommand) {
+    AggregateLifecycle.apply(
+      OrderApprovedEvent(
+        orderId = command.orderId.asString()
+      )
+    )
+  }
+
+  @CommandHandler
+  fun handle(command: RejectOrderCommand) {
+    AggregateLifecycle.apply(
+      OrderRejectedEvent(
+        orderId = command.orderId.asString(),
+        reason = command.reason
+      )
+    )
+  }
+
   @EventSourcingHandler
   fun on(event: OrderCreatedEvent) {
     orderId = event.orderId
@@ -46,17 +67,13 @@ class OrderAggregate {
     orderStatus = event.orderStatus
   }
 
-  @CommandHandler
-  fun handle(event: ApproveOrderCommand) {
-    AggregateLifecycle.apply(
-      OrderApprovedEvent(
-        event.orderId.asString()
-      )
-    )
+  @EventSourcingHandler
+  fun on(event: OrderApprovedEvent) {
+    orderStatus = event.orderStatus
   }
 
   @EventSourcingHandler
-  fun on(event: OrderApprovedEvent) {
+  fun on(event: OrderRejectedEvent) {
     orderStatus = event.orderStatus
   }
 }

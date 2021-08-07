@@ -11,8 +11,10 @@ import com.github.reomor.core.domain.event.ProductReservationCancelEvent
 import com.github.reomor.core.domain.event.ProductReservedEvent
 import com.github.reomor.core.query.FetchUserPaymentDetailsQuery
 import com.github.reomor.orderservice.command.ApproveOrderCommand
+import com.github.reomor.orderservice.command.RejectOrderCommand
 import com.github.reomor.orderservice.core.domain.event.OrderApprovedEvent
 import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
+import com.github.reomor.orderservice.core.domain.event.OrderRejectedEvent
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.modelling.saga.EndSaga
@@ -113,22 +115,38 @@ class OrderSaga {
 
     log.info("Handle PaymentProcessedEvent: {}", event)
 
-    commandGateway.send<String>(ApproveOrderCommand.build {
-      orderId = OrderId(event.orderId)
-    })
+    commandGateway.send<String>(
+      ApproveOrderCommand.build {
+        orderId = OrderId(event.orderId)
+      }
+    )
   }
 
   @EndSaga
   @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
   fun handle(event: OrderApprovedEvent) {
     log.info("Order is approved: {}", event.orderId)
-    // alternative way of @EndSaga
+//    alternative way of @EndSaga
 //    SagaLifecycle.end()
   }
 
   @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
   fun handle(event: ProductReservationCancelEvent) {
 
+    log.info("Handle ProductReservationCancelEvent: {}", event)
+
+    commandGateway.send<String>(
+      RejectOrderCommand.build {
+        orderId = OrderId(event.orderId)
+        reason = event.reason
+      }
+    )
+  }
+
+  @EndSaga
+  @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
+  fun handle(event: OrderRejectedEvent) {
+    log.info("Order is rejected: {}", event.orderId)
   }
 
   /**
