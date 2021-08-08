@@ -6,5 +6,5 @@ import com.github.reomor.orderservice.core.OrderStatus
 data class CreateOrderResponse(
   val orderId: OrderId,
   val orderStatus: OrderStatus,
-  val message: String? = null
+  val message: String? = ""
 )

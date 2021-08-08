@@ -4,6 +4,7 @@ import com.github.reomor.core.command.CancelProductReservationCommand
 import com.github.reomor.core.command.ReserveProductCommand
 import com.github.reomor.core.domain.event.ProductReservationCancelEvent
 import com.github.reomor.core.domain.event.ProductReservedEvent
+import com.github.reomor.productservice.PRODUCT_SNAPSHOT_TRIGGER
 import com.github.reomor.productservice.command.CreateProductCommand
 import com.github.reomor.productservice.core.domain.event.ProductCreatedEvent
 import org.axonframework.commandhandling.CommandHandler
@@ -14,7 +15,7 @@ import org.axonframework.spring.stereotype.Aggregate
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 
-@Aggregate
+@Aggregate(snapshotTriggerDefinition = PRODUCT_SNAPSHOT_TRIGGER)
 internal class ProductAggregate {
 
   @AggregateIdentifier

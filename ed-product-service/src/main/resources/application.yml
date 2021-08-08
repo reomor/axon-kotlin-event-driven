@@ -30,3 +30,6 @@ axon:
     processors:
       product-group:
         mode: subscribing
+logging:
+  level:
+    org.axonframework.axonserver.connector.event.axon.AxonServerEventStore: DEBUG
