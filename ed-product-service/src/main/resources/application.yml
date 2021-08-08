@@ -30,6 +30,8 @@ axon:
     processors:
       product-group:
         mode: subscribing
+#        only tracking can be replayed
+#        mode: tracking
 logging:
   level:
     org.axonframework.axonserver.connector.event.axon.AxonServerEventStore: DEBUG

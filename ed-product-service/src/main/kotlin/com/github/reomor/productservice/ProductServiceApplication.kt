@@ -2,10 +2,8 @@ package com.github.reomor.productservice
 
 import com.github.reomor.productservice.command.interceptor.CreateProductCommandInterceptor
 import com.github.reomor.productservice.core.error.handler.ProductServiceEventErrorHandler
-import com.github.reomor.productservice.core.event.PRODUCT_EVENTS_GROUP
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.config.EventProcessingConfigurer
-import org.axonframework.eventhandling.PropagatingErrorHandler
 import org.axonframework.eventsourcing.EventCountSnapshotTriggerDefinition
 import org.axonframework.eventsourcing.SnapshotTriggerDefinition
 import org.axonframework.eventsourcing.Snapshotter
@@ -15,8 +13,8 @@ import org.springframework.boot.runApplication
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
-import java.util.function.Function
 
+const val PRODUCT_EVENTS_GROUP = "product-group"
 const val PRODUCT_SNAPSHOT_TRIGGER = "productShapshotDefinitionTrigger"
 
 @EnableDiscoveryClient

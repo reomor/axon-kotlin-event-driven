@@ -141,7 +141,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8082/order-service/v1/orders/command Copy",
+			"name": "http://localhost:10001/v1/users/1234abcd/payment-details",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -169,6 +169,39 @@
 						"users",
 						"1234abcd",
 						"payment-details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/product-service/v1/management/eventProcessor/product-group/reset",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"f241af45-4854-43f4-95bc-ab54da338a29\",\r\n    \"quantity\": 1,\r\n    \"addressId\": \"afbb5881-a872-4d13-993c-faeb8350eea5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/product-service/v1/management/eventProcessor/product-group/reset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"product-service",
+						"v1",
+						"management",
+						"eventProcessor",
+						"product-group",
+						"reset"
 					]
 				}
 			},

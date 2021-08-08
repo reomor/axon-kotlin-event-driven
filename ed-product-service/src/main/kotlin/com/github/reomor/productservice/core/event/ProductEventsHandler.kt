@@ -2,17 +2,17 @@ package com.github.reomor.productservice.core.event
 
 import com.github.reomor.core.domain.event.ProductReservationCancelEvent
 import com.github.reomor.core.domain.event.ProductReservedEvent
+import com.github.reomor.productservice.PRODUCT_EVENTS_GROUP
 import com.github.reomor.productservice.core.domain.event.ProductCreatedEvent
 import com.github.reomor.productservice.core.jpa.entity.ProductEntity
 import com.github.reomor.productservice.core.jpa.repository.ProductRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
+import org.axonframework.eventhandling.ResetHandler
 import org.axonframework.messaging.interceptors.ExceptionHandler
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-
-const val PRODUCT_EVENTS_GROUP = "product-group"
 
 @Component
 @ProcessingGroup(PRODUCT_EVENTS_GROUP) // to process the same event once for this group also rollback for all
@@ -72,6 +72,12 @@ class ProductEventsHandler(
     } else{
       throw IllegalArgumentException("Product(id=${event.productId} is not found")
     }
+  }
+
+  @ResetHandler
+  fun reset() {
+    // empty product table to replay events
+    productRepository.deleteAll()
   }
 
   companion object {

@@ -1,11 +1,12 @@
 package com.github.reomor.productservice.command.event
 
-import com.github.reomor.productservice.core.event.PRODUCT_EVENTS_GROUP
+import com.github.reomor.productservice.PRODUCT_EVENTS_GROUP
 import com.github.reomor.productservice.core.domain.event.ProductCreatedEvent
 import com.github.reomor.productservice.core.jpa.entity.ProductLookupEntity
 import com.github.reomor.productservice.core.jpa.repository.ProductLookupRepository
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
+import org.axonframework.eventhandling.ResetHandler
 import org.springframework.stereotype.Component
 
 @Component
@@ -22,5 +23,11 @@ class ProductLookupEventsHandler(
         name = event.name
       )
     )
+  }
+
+  @ResetHandler
+  fun reset() {
+    // empty product table to replay events
+    productLookupRepository.deleteAll()
   }
 }
