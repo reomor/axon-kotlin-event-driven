@@ -12,9 +12,12 @@ import com.github.reomor.core.domain.event.ProductReservedEvent
 import com.github.reomor.core.query.FetchUserPaymentDetailsQuery
 import com.github.reomor.orderservice.command.ApproveOrderCommand
 import com.github.reomor.orderservice.command.RejectOrderCommand
+import com.github.reomor.orderservice.core.OrderStatus
 import com.github.reomor.orderservice.core.domain.event.OrderApprovedEvent
 import com.github.reomor.orderservice.core.domain.event.OrderCreatedEvent
 import com.github.reomor.orderservice.core.domain.event.OrderRejectedEvent
+import com.github.reomor.orderservice.query.FindOrderQuery
+import com.github.reomor.orderservice.query.rest.OrderInfo
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.deadline.DeadlineManager
 import org.axonframework.deadline.annotation.DeadlineHandler
@@ -23,6 +26,7 @@ import org.axonframework.modelling.saga.EndSaga
 import org.axonframework.modelling.saga.SagaEventHandler
 import org.axonframework.modelling.saga.StartSaga
 import org.axonframework.queryhandling.QueryGateway
+import org.axonframework.queryhandling.QueryUpdateEmitter
 import org.axonframework.spring.stereotype.Saga
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -48,6 +52,10 @@ class OrderSaga {
   @Transient
   private lateinit var deadlineManager: DeadlineManager
 
+  @Autowired
+  @Transient
+  private lateinit var queryUpdateEmitter: QueryUpdateEmitter
+
   private var scheduleId: String? = null
 
   @StartSaga
@@ -64,15 +72,19 @@ class OrderSaga {
     )
 
     commandGateway.send<ReserveProductCommand, Any>(
-      reserveProductCommand,
-      { _, commandResultMessage ->
-        if (commandResultMessage.isExceptional) {
-          // todo
-          // commandMessage
-          // start compensating transaction
-          log.error("Error: {}", commandResultMessage.exceptionResult().message)
-        }
-      })
+      reserveProductCommand
+    ) { commandMessage, commandResultMessage ->
+      if (commandResultMessage.isExceptional) {
+        // start compensating transaction
+        log.error("Error after command ReserveProductCommand: {}", commandResultMessage.exceptionResult().message)
+        commandGateway.send<String>(
+          RejectOrderCommand.build {
+            orderId = OrderId(commandMessage.payload.orderId)
+            reason = commandResultMessage.exceptionResult().message ?: "Error after command ReserveProductCommand"
+          }
+        )
+      }
+    }
   }
 
   @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
@@ -86,7 +98,7 @@ class OrderSaga {
         ResponseTypes.instanceOf(User::class.java)
       ).join()
     } catch (e: Exception) {
-      log.error("Error: {}", e.message)
+      log.error("Error after FetchUserPaymentDetailsQuery: {}", e.message)
       null
     }
 
@@ -99,12 +111,13 @@ class OrderSaga {
 
     // define deadline instead of wait in sendAndWait
     scheduleId = deadlineManager.schedule(
-      Duration.ofMinutes(120),
+//      Duration.ofMinutes(120),
+      Duration.ofSeconds(10),
       PAYMENT_PROCESSING_DEADLINE,
       event
     )
 
-//    to cause deadline
+//    to cause deadline and rollback
 //    if (true) return
 
     val paymentId = try {
@@ -116,7 +129,7 @@ class OrderSaga {
         )
       )
     } catch (e: Exception) {
-      log.error("Error: {}", e.message)
+      log.error("Error after ProcessPaymentCommand: {}", e.message)
       null
     }
 
@@ -144,6 +157,15 @@ class OrderSaga {
   @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
   fun handle(event: OrderApprovedEvent) {
     log.info("Order is approved: {}", event.orderId)
+    // emit response for subscription query on success
+    queryUpdateEmitter.emit(
+      FindOrderQuery::class.java,
+      { true },
+      OrderInfo(
+        orderId = event.orderId,
+        orderStatus = event.orderStatus
+      )
+    )
 //    alternative way of @EndSaga
 //    SagaLifecycle.end()
   }
@@ -165,6 +187,16 @@ class OrderSaga {
   @SagaEventHandler(associationProperty = ORDER_ID_ASSOCIATION)
   fun handle(event: OrderRejectedEvent) {
     log.info("Order is rejected: {}", event.orderId)
+    // emit response for subscription query on cancel
+    queryUpdateEmitter.emit(
+      FindOrderQuery::class.java,
+      { true },
+      OrderInfo(
+        orderId = event.orderId,
+        orderStatus = event.orderStatus,
+        message = event.reason
+      )
+    )
   }
 
   @DeadlineHandler(deadlineName = PAYMENT_PROCESSING_DEADLINE)
